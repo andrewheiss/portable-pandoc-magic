@@ -87,9 +87,10 @@ TEX_REF = bibstyle-chicago-authordate
 # (pandoc/bin/replace_pdfs.py) to replace all references to PDFs with PNGs
 # and--if needed--convert existing PDFs to PNG using sips. However, there are
 # times when it's better to *not* convert to PNG on the fly, like when using
-# high resolution PNGs exprted from R with ggsave+Cairo. To disable on-the-fly
-# conversion and supply your own PNGs, uncomment PNG_CONVERT below. The script
-# will still replace references to PDFs with PNGs, but will not convert the PDFs
+# high resolution PNGs exported from R with ggsave+Cairo. To disable on-the-fly
+# conversion and supply your own PNGs, use `PNG_CONVERT = --no-convert` below. 
+# The script will still replace references to PDFs with PNGs, but will not 
+# convert the PDFs. To enable PNG conversion, use `PNG_CONVERT = ` 
 PNG_CONVERT = --no-convert
 
 
