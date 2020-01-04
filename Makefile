@@ -4,7 +4,7 @@
 # Markdown or R Markdown file.
 # 
 # Instructions:
-#	- Ensure you have the following things installed:
+#	1. Ensure you have the following things installed:
 #		- R (and these packages: tidyverse, rvest, stringi)
 #		- python3
 #		- LibreOffice
@@ -16,10 +16,11 @@
 #		- gawk (brew install gawk on macOS)
 #		- Fonts (as needed) in pandoc/fonts/
 # 
-#	- Set SRC and BIB_FILE to the appropriate file names
-#	- Change other variables in the "Modifiable variables" section as needed
+#	2. Set SRC and BIB_FILE to the appropriate file names
 # 
-#	- Run one of the following:
+#	3. Change other variables in the "Modifiable variables" section as needed
+# 
+#	4. Run one of the following:
 #		- make md:		Convert R Markdown to regular Markdown
 #		- make html:	Create HTML file
 #		- make tex:		Create nice PDF through xelatex in TEX_DIR folder
@@ -32,7 +33,7 @@
 #		- make count:	Count the words in the manuscript
 #		- make clean:	Remove all output files
 # 
-#	You can also combine these: e.g. `make html tex mstex docx bib count`
+#	    You can also combine these: e.g. `make html tex mstex docx bib count`
 # 
 # By default, all targets run `make clean` beforehand. You can remove that to
 # rely on make's timestamp checking. However, if you do this, you'll need to add
