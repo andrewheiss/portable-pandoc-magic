@@ -70,7 +70,7 @@ Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad
 In @tbl:mytable, quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
 
 ```{r example-table, echo=FALSE, warning=FALSE, message=FALSE}
-library(dplyr)
+library(tibble)
 library(magrittr)
 library(pander)
 

@@ -135,7 +135,7 @@ You don't need to do this with tables, though. If you use `pandoc.table()` from 
 
 ````text
 ```{r example-table, echo=FALSE, warning=FALSE, message=FALSE, results="asis"}
-library(dplyr)
+library(tibble)
 library(magrittr)
 library(pander)
 
