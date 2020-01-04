@@ -25,7 +25,7 @@ Super magical.
 This system technically isn't *100%* portable, since it needs a few larger pieces of software. You'll need to install these things:
 
 - [**pandoc**](https://pandoc.org/MANUAL.html): Install either with `brew install pandoc` or by downloading it from [pandoc.org](https://pandoc.org/installing.html).
-- [**make**](https://www.gnu.org/software/make/): The workhorse behind all the conversion is `make`, which uses [`Makefile`](Makefile) to generate different pandoc incantations. On macOS, open Terminal and run `xcode-select --install` to install a handful of developer tools, including `make`. For Windows, [follow these instructions](https://stat545.com/make-windows.html).
+- [**make**](https://www.gnu.org/software/make/): The workhorse behind all the conversion is `make`, which uses this [`Makefile`](Makefile) to generate different pandoc incantations. On macOS, open Terminal and run `xcode-select --install` to install a handful of developer tools, including `make`. For Windows, [follow these instructions](https://stat545.com/make-windows.html).
 - [**R**](https://cran.r-project.org/): Needed to convert [R Markdown](https://rmarkdown.rstudio.com/) files to Markdown (if you're using R Markdown). Also needed to get word count when you run `make count`. Download and install from [r-project.org](https://cran.r-project.org/). Ensure you have the following packages installed: [**tidyverse**](https://www.tidyverse.org/), [**knitr**](https://yihui.org/knitr/), [**rvest**](https://rvest.tidyverse.org/), and [**stringi**](http://www.gagolewski.com/software/stringi/) (run `install.packages(c("tidyverse", "knitr", "rvest", "stringi"))`)
 - **Python 3**: Install either with `brew install python`  or by downloading it from [python.org](https://www.python.org/downloads/mac-osx/).
 - **TeX**: If you want to do anything with PDFs, install LaTeX. It's easiest to just install the massive [MacTeX distribution](https://tug.org/mactex/) on macOS (or some Windows distribution if you use Windows).
@@ -110,7 +110,7 @@ You can move all the figures and tables to the end of the document by setting `E
 
 ### PNG conversion
 
-Word and HTML can choke on PDF images, so those targets use a helper script ([`pandoc/bin/replace_pdfs.py`](`pandoc/bin/replace_pdfs.py`)) to replace all references to PDFs with PNGs and—if needed—convert existing PDFs to PNG using `sips`. However, there are times when it's better to *not* convert to PNG on the fly, like when using high resolution PNGs exported from R with `ggsave()` and Cairo. To disable on-the-fly conversion and supply your own PNGs, use `PNG_CONVERT = --no-convert`. The script will still replace references to PDFs with PNGs, but will not convert the PDFs.
+Word and HTML can choke on PDF images, so those targets use a helper script ([`pandoc/bin/replace_pdfs.py`](pandoc/bin/replace_pdfs.py)) to replace all references to PDFs with PNGs and—if needed—convert existing PDFs to PNG using `sips`. However, there are times when it's better to *not* convert to PNG on the fly, like when using high resolution PNGs exported from R with `ggsave()` and Cairo. To disable on-the-fly conversion and supply your own PNGs, use `PNG_CONVERT = --no-convert`. The script will still replace references to PDFs with PNGs, but will not convert the PDFs.
 
 ### Cross references and knitr/R Markdown
 
