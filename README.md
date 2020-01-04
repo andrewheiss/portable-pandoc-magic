@@ -8,6 +8,17 @@ To simplify things for me and for collaborators, I've taken my global pandoc fil
 
 Super magical.
 
+- [Installation](#installation)
+- [Usage](#usage)
+- [Example](#example)
+- [Miscellaneous](#miscellaneous)
+  - [Including external files](#including-external-files)
+  - [Blinding](#blinding)
+  - [Version control](#version-control)
+  - [&quot;Figure 1 here&quot;](#quotfigure-1-herequot)
+  - [PNG conversion](#png-conversion)
+  - [Cross references and knitr/R Markdown](#cross-references-and-knitrr-markdown)
+
 
 ## Installation
 
