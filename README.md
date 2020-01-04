@@ -121,7 +121,7 @@ For `pandoc-crossref` to work, you have to use this syntax:
 ```text
 Here is some text that refers to @fig:myfig.
 
-![Caption for figure](/output/myfig.pdf){#fig:myfig}
+![Caption for figure](output/myfig.pdf){#fig:myfig}
 ```
 
 There's unfortunately no way to get that `{#fig:myfig}` into the correct place in a knitted R Markdown document. The only solution I've found is to not use R/knitr to include figures. Instead I create the figures elsewhere—either in a different R script, or in a chunk in my document—and then save them to disk as PDF or PNG (or both). I then use standard Markdown + pandoc-crossref syntax (`![](){}`) to include them:
@@ -140,7 +140,7 @@ ggsave("output/myfig.png", plot1,
 
 Here is some text that refers to @fig:myfig.
 
-![Caption for figure](/output/myfig.pdf){#fig:myfig}
+![Caption for figure](output/myfig.pdf){#fig:myfig}
 ````
 
 You don't need to do this with tables, though. If you use `pandoc.table()` from the [**pander** library](https://www.r-project.org/nosvn/pandoc/pander.html), you can include the correct pandoc-crossref syntax in the table caption:
