@@ -1,0 +1,302 @@
+% Custom chapterstyles and pagestyles for the memoir class
+
+%----------------------------------
+% Useful commands and definitions
+%----------------------------------
+
+% Blank footnote command
+% Use \symbolfootnote[0]{Footnote text} for a blank footnote. 
+% Useful for an initial acknowledgment note.
+\long\def\symbolfootnote[#1]#2{\begingroup%
+\def\thefootnote{\fnsymbol{footnote}}\footnote[#1]{#2}\endgroup}
+
+% Redefine \and and \andnext to remove tabular environment.
+% Needed below for custom article-styles when multiple authors are present. 
+\renewcommand{\and}{\, }
+\renewcommand*{\andnext}{%
+  \\\medskip }
+
+% Better default \maketitle, with vertical space removed
+\renewcommand{\@maketitle}{%               
+  \let\footnote\@mem@titlefootkill
+  \ifdim\pagetotal>\z@
+    \newpage
+  \fi
+  \null
+  \vskip 0em%
+        \vspace*{\droptitle}
+  \maketitlehooka
+  {\@bspretitle \@title \@bsposttitle}
+  \maketitlehookb
+  {\@bspreauthor \@author \@bspostauthor}
+  \maketitlehookc
+  {\@bspredate \@date \@bspostdate}
+  \maketitlehookd
+  \par
+  \vskip 0.0em}
+
+% Command for a note at the top of the first page describing the publication
+% status of the paper.
+\newcommand{\published}[1]{% 
+   \gdef\puB{#1}} 
+   \newcommand{\puB}{} 
+   \renewcommand{\maketitlehooka}{% 
+       \par\noindent\footnotesize \puB} 
+
+
+%-----------------
+%-----------------
+% Chapter styles
+%-----------------
+%-----------------
+
+% Control titles, sections, subsections, etc.
+
+% See this for some examples: 
+% http://www.ctan.org/tex-archive/info/latex-samples/MemoirChapStyles/
+
+%---------------------
+% Base article style
+%---------------------
+\makechapterstyle{hikma-article}{
+    % Heading 1
+    \setsecheadstyle{\Large\sffamily\bfseries}
+    \setbeforesecskip{-4.5ex}  % Space before; if negative, next paragraph will not be indented
+    \setaftersecskip{1ex}  % Space after
+
+    % Heading 2
+    \setsubsecheadstyle{\large\sffamily} 
+    \setbeforesubsecskip{-2.5ex}
+    \setaftersubsecskip{0.7ex}
+
+    % Heading 3
+    \setaftersubsubsecskip{-1em}  % Inline heading
+    \setsubsubsecheadstyle{\normalsize\sffamily\bfseries} 
+    \setbeforesubsubsecskip{1.5ex}
+
+    % Captions
+    \captiontitlefont{\scriptsize\sffamily}
+    \captionnamefont{\scriptsize\sffamily}
+    \subcaptionsize{\scriptsize}
+    \subcaptionlabelfont{\sffamily}
+    \subcaptionfont{\sffamily}
+
+    % TOC stuff
+    \settocdepth{subsubsection}
+    \maxsecnumdepth{subsubsection} 
+    \setsecnumdepth{chapter}
+
+    % Set name of bibliography to 'references'
+    % \renewcommand{\bibname}{\mdseries\Large\sffamily References}
+
+    % Change formatting in title block
+    \pretitle{\par\vskip 3em \flushleft\huge\sffamily\bfseries}
+    \posttitle{\par\vskip 0.75em}
+    \preauthor{\flushleft\sffamily}
+    \postauthor{}
+    \predate{\normalsize}
+    \postdate{}
+
+    % Abstract stuff
+    \renewcommand{\abstractname}{\vspace{-\baselineskip}}  % Remove abstract title
+    \renewcommand{\abstracttextfont}{\small\sffamily}
+
+    \epigraphfontsize{\normalfont\footnotesize}
+    \setlength\epigraphwidth{8cm}
+    \setlength\epigraphrule{0pt}
+
+    % Chapter-specific stuff
+    % \renewcommand{\printchaptername}{} 
+    % \renewcommand{\chapternamenum}{} 
+    % \renewcommand{\chapnumfont}{\chaptitlefont} 
+    % \renewcommand{\printchapternum}{\chapnumfont \thechapter\space} 
+    % \renewcommand{\afterchapternum}{} 
+    % \renewcommand{\printchaptername}{\secheadstyle}
+    % \renewcommand{\cftchapterfont}{\normalfont} 
+    % \renewcommand{\cftchapterpagefont}{\normalfont\sffamily} 
+    % \renewcommand{\cftchapterpresnum}{\sffamily} 
+    % %\renewcommand{\cftchapterleader}{} 
+    % %\renewcommand{\cftchapterafterpnum}{\cftparfillskip}
+}
+
+\makechapterstyle{hikma-article-numbered} {
+  \chapterstyle{hikma-article}  % Copy previous style
+  \counterwithout{section}{chapter}  % Make sections start at 1, not 0
+  \settocdepth{subsubsection}
+  \maxsecnumdepth{subsubsection} 
+  \setsecnumdepth{subsubsection}
+}
+
+
+% ---------------
+% Chapter style
+% ---------------
+\makechapterstyle{hikma-chapter} {
+    \chapterstyle{hikma-article}  % Copy previous style
+    \setlength{\beforechapskip}{3\baselineskip}
+    % \renewcommand{\chapterheadstart}{\vspace*{\beforechapskip}\hrule\medskip}
+    \renewcommand*{\chapterheadstart}{\vspace*{\beforechapskip}}
+    \renewcommand{\chapnamefont}{\small\sffamily\scshape}
+    \renewcommand{\chapnumfont}{\small\sffamily}
+    \renewcommand{\chaptitlefont}{\huge\sffamily\upshape}
+
+    % Leading
+    %\preto\chaptitlefont{\linespread{3}}
+
+    % Title 
+    \pretitle{\begin{center}\huge\sffamily\bfseries}
+    \posttitle{\end{center}}
+    % \posttitle{\end{center}\par\vskip 1.5em}
+    \preauthor{\begin{center}\Large\sffamily}
+    \postauthor{\end{center}}
+    \predate{\begin{center}\sffamily\footnotesize\vspace{0.9em}}
+    \postdate{\end{center}}
+    % \postdate{\end{center}\par\vskip 2em}
+}
+
+%-----------------------------------
+% Memo style (for short documents)
+%-----------------------------------
+\makechapterstyle{hikma-memo}{
+    \setsubsecheadstyle{\large\sffamily} 
+    \setsubsubsecheadstyle{\normalsize\sffamily\itshape} 
+    \renewcommand{\printchaptername}{} 
+    \renewcommand{\chapternamenum}{} 
+    \renewcommand{\chapnumfont}{\chaptitlefont} 
+    \renewcommand{\printchapternum}{\chapnumfont \thechapter\space} 
+    \renewcommand{\afterchapternum}{} 
+    \renewcommand{\printchaptername}{\secheadstyle}
+    \renewcommand{\cftchapterfont}{\normalfont} 
+    \renewcommand{\cftchapterpagefont}{\normalfont\sffamily} 
+    \renewcommand{\cftchapterpresnum}{\sffamily} 
+    %\renewcommand{\cftchapterleader}{} 
+    %\renewcommand{\cftchapterafterpnum}{\cftparfillskip}
+    \captiontitlefont{\small}
+    \settocdepth{subsubsection}
+    \maxsecnumdepth{chapter} 
+    \setsecnumdepth{chapter}
+
+    % reduce skip after section heading
+    \setaftersecskip{1.7ex}
+
+    % Title 
+    % \pretitle{\begin{flushleft}\LARGE\sffamily\bfseries}
+    % \posttitle{\end{flushleft}\par\vskip 0.5em}
+    % \preauthor{\begin{flushleft}\Large\sffamily}
+    % \postauthor{\end{flushleft}}
+    % \predate{\begin{flushleft}\sffamily\footnotesize\vspace{0.9em}}
+    % \postdate{\end{flushleft}\par\vskip 2em}
+}
+
+%------------------------------
+% Memo with numbered sections
+%------------------------------
+\makechapterstyle{hikma-memo-numbered}{
+    \renewcommand\tocheadstart{}
+    \renewcommand\printtoctitle[1]{}
+    \renewcommand\thesection{\arabic{section}} 
+    \setsecheadstyle{\Large\sffamily} 
+    \setsubsecheadstyle{\large\sffamily} 
+    \setsubsubsecheadstyle{\normalsize\sffamily\itshape} 
+    \renewcommand{\printchaptername}{} 
+    \renewcommand{\chapternamenum}{} 
+    \renewcommand{\chapnumfont}{\chaptitlefont} 
+    \renewcommand{\printchapternum}{\chapnumfont \thechapter\space} 
+    \renewcommand{\afterchapternum}{} 
+    \renewcommand{\printchaptername}{\secheadstyle}
+    \renewcommand{\cftchapterfont}{\normalfont} 
+    \renewcommand{\cftchapterpagefont}{\normalfont\sffamily} 
+    \renewcommand{\cftchapterpresnum}{\sffamily} 
+    %\renewcommand{\cftchapterleader}{} 
+    %\renewcommand{\cftchapterafterpnum}{\cftparfillskip}
+    \captiontitlefont{\small}
+    \settocdepth{subsubsection}
+    \maxsecnumdepth{subsubsection} 
+    \setsecnumdepth{subsubsection}
+
+    % reduce skip after section heading
+    \setaftersecskip{1.7ex}
+
+    % Title 
+    \pretitle{\begin{flushleft}\LARGE\sffamily\bfseries}
+    \posttitle{\end{flushleft}\par\vskip 0.5em}
+    \preauthor{\begin{flushleft}\Large\sffamily}
+    \postauthor{\end{flushleft}}
+    \predate{\begin{flushleft}\sffamily\footnotesize\vspace{0.9em}}
+    \postdate{\end{flushleft}\par\vskip 2em}
+}
+
+
+%---------------------
+%---------------------
+% Custom page styles
+%---------------------
+%---------------------
+
+% Control running headers and footers 
+
+%--------------
+% Basic style
+%--------------
+\makepagestyle{ath}
+%\makeevenfoot{ath}{\thepage}{}{}
+%\makeoddfoot{ath}{}{}{\thepage}
+%\makeheadrule{ath}{\textwidth}{\normalrulethickness}
+\newcommand{\@athmarks}{%
+  \let\@mkboth\markboth
+  \def\chaptermark##1{%
+    \markboth{%
+      \ifnum \c@secnumdepth >\m@ne
+        \if@mainmatter
+          \thechapter. \ %
+        \fi
+      \fi
+      ##1}{}}
+  \def\sectionmark##1{%
+    \markright{##1}}
+}
+\makepsmarks{ath}{\@athmarks}
+\makepsmarks{ath}{}
+\makeevenhead{ath}{}{}{\scshape\thepage}
+\makeoddhead{ath}{}{}{\scshape\thepage}
+
+
+%--------------------------------------------
+% Git info in footers; requires vc package 
+%--------------------------------------------
+\makepagestyle{athgit}
+% \makeheadrule{athgit}{\textwidth}{\normalrulethickness}
+\newcommand{\@athgitmarks}{%
+  \let\@mkboth\markboth
+  \def\chaptermark##1{%
+    \markboth{%
+      \ifnum \c@secnumdepth >\m@ne
+        \if@mainmatter
+          \thechapter. \ %
+        \fi
+      \fi
+      ##1}{}}
+  \def\sectionmark##1{%
+    \markright{##1}}
+}
+\makepsmarks{athgit}{\@athgitmarks}
+% \makeevenhead{athgit}{\itshape\sffamily\footnotesize\leftmark}{}{\sffamily\footnotesize\thepage}
+% \makeoddhead{athgit}{\itshape\sffamily\footnotesize\leftmark}{}{\sffamily\footnotesize\thepage}
+\makeevenhead{athgit}{}{}{\sffamily\footnotesize\thepage}
+\makeoddhead{athgit}{}{}{\sffamily\footnotesize\thepage}
+%\makeevenfoot{athgit}{}{}{\texttt{\footnotesize \VCRevision\ \VCModifiedText\ on \VCDateTEX}}
+%\makeoddfoot{athgit}{}{}{\texttt{\footnotesize \VCRevision\ \VCModifiedText\ on \VCDateTEX}}
+\makeevenfoot{athgit}{}{}{\texttt{\scriptsize \href{\GITURL/tree/\GITHash}{\VCRevision\ on \VCDateISO}}}
+\makeoddfoot{athgit}{}{}{\texttt{\scriptsize \href{\GITURL/tree/\GITHash}{\VCRevision\ on \VCDateISO}}}
+
+% Add information to first page
+\makepagestyle{athgit_first}
+%\makeevenfoot{athgit_first}{\scshape\thepage}{}{\texttt{\footnotesize \VCRevision\ \VCModifiedText\ on \VCDateTEX}}
+%\makeoddfoot{athgit_first}{\scshape\thepage}{}{\texttt{\footnotesize \VCRevision\ \VCModifiedText\ on \VCDateTEX}} 
+\makeevenfoot{athgit_first}{\scshape\thepage}{}{\texttt{\scriptsize \href{\GITURL/tree/\GITHash}{\VCRevision\ on \VCDateISO}}}
+\makeoddfoot{athgit_first}{\scshape\thepage}{}{\texttt{\scriptsize \href{\GITURL/tree/\GITHash}{\VCRevision\ on \VCDateISO}}} 
+
+% Overwrite the plain page style (used for first pages)
+% \copypagestyle{plain}{athgit_first}
+
+\endinput

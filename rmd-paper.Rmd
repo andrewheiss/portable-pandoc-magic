@@ -1,0 +1,99 @@
+---
+title: "Example paper from R Markdown"
+author:
+- name: Author 1
+  affiliation: University of Whatever
+  email: author1@example.edu
+- name: Author 2
+  affiliation: University of Wherever
+  email: author2@example2.edu
+date: January 3, 2020
+published: Working paper.
+git-repo: https://example.com
+abstract: >-
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+reference-section-title: References
+mainfont: Spectral
+sansfont: Open Sans
+---
+
+<!-- rmd-paper.md is generated from rmd-paper.Rmd. Only edit the .Rmd file, *not* the .md file. -->
+
+# Introduction
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua [@HeissKelley:2017]. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat [@KeckSikkink:1998]. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur [@Heiss:2019].
+
+```{r build-save-plot, echo=FALSE}
+# Technically, knitr can put graphic output directly in a document---that's like
+# the number one thing knitr is famous for! For my workflow, though, I like
+# creating all my images in other files, like an anlysis notebook, and then
+# saving those figures with ggsave, since I can use Cairo to (1) embed fonts in
+# PDFs and (2) use correct DPI in PNGs.
+#
+# Also (and more impotantly) with knitr it's impossible to add the cross
+# reference metadata like {#fig:mpg-plot} that's necessary for pandoc-crossref.
+#
+# So instead, I make figures elsewhere (or even in the same document!), save
+# them to disk using ggsave(), and then use standard Markdown syntax +
+# pandoc-crossref metadata to include the images in my document.
+set.seed(1234)
+
+library(ggplot2)
+
+plot1 <- ggplot(mpg, aes(x = cty, y = hwy, color = as.factor(cyl))) +
+  geom_point(size = 0.5, position = position_jitter()) +
+  labs(x = "City MPG", y = "Highway MPG", color = "Cylinders") +
+  theme_minimal(9)
+
+ggsave(here::here("figs-tbls", "mpg-plot.pdf"), plot = plot1,
+       width = 5, height = 3, units = "in", device = cairo_pdf)
+ggsave(here::here("figs-tbls", "mpg-plot.png"), plot = plot1,
+       width = 5, height = 3, units = "in", type = "cairo", dpi = 300)
+```
+
+![Scatterplot showing the relationship between city and highway miles per gallon](figs-tbls/mpg-plot.pdf){#fig:mpg-plot}
+
+Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam (see @fig:mpg-plot), eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. 
+
+$$
+\text{This is a test} = \beta_1 x_1 + \epsilon
+$$
+
+Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. 
+
+# New section
+
+Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? 
+
+## Subsection
+
+In @tbl:mytable, quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+
+```{r example-table, echo=FALSE, warning=FALSE, message=FALSE}
+library(dplyr)
+library(magrittr)
+library(pander)
+
+# Unlike graphics, this can be done directly from R without needing to save an
+# intermediate file if you want: set results="asis" in the chunk options,
+# comment out pandoc.table.return() and cat(), and uncomment pandoc.table()
+tribble(
+  ~Heading, ~`Other heading`,
+  2, 3,
+  5, 7,
+  9, 1
+) %>% 
+  # pandoc.table(caption = "This is a table {#tbl:mytable}")
+  pandoc.table.return(caption = "This is a table {#tbl:mytable}") %>% 
+  cat(file = here::here("figs-tbls", "mytable.md"))
+```
+
+!include figs-tbls/mytable.md
+
+At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. 
+
+## Subsection again
+
+Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.
+
+!include external.md

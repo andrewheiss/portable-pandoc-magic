@@ -1,0 +1,286 @@
+%!TEX program = xelatex
+% Adapted in part from Nicholas Reith's Journal Article Manuscript Template
+% https://www.overleaf.com/latex/templates/journal-article-manuscript-template/yhxfrgxqdthx
+\documentclass[letterpaper,12pt]{article}
+
+% ---------------
+% GENERAL SETUP
+% ---------------
+\usepackage[american]{babel}
+\usepackage[babel]{csquotes}
+\usepackage{enumitem}
+\usepackage{etoolbox}
+\setlength{\parindent}{0.5in}
+
+
+% -------
+% FONTS
+% -------
+% Math stuff
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage{unicode-math}  % For custom math fonts
+
+% Custom fonts
+\usepackage{fontspec}
+\usepackage{xunicode}
+\defaultfontfeatures{Mapping=tex-text,Ligatures=TeX,Scale=MatchLowercase}
+\setmainfont{Linux Libertine O}
+\setsansfont{Source Sans Pro}
+\setmonofont[Mapping=tex-ansi, Scale=MatchLowercase]{InconsolataGo}
+\setmathfont{Libertinus Math}
+
+
+% ---------------
+% TITLE SECTION
+% ---------------
+% Abstract
+\usepackage{abstract} 
+\renewcommand{\abstractnamefont}{\normalfont\normalsize\bfseries}
+\renewcommand{\abstracttextfont}{\normalsize} 
+\setlength{\absleftindent}{\parindent}
+\setlength{\absrightindent}{\parindent}
+
+% Title
+\usepackage{titlesec} % Allows customization of titles
+
+% Authors
+\usepackage{authblk} % For multiple authors
+
+% Keywords
+\providecommand{\keywords}[1]{\textbf{\textit{Keywords:}} #1}
+
+
+% -------------------
+% PAGE LAYOUT SUTFF
+% -------------------
+% For landscape PDF pages
+\usepackage{pdflscape}
+
+% For better TOCs
+\usepackage{tocloft}
+
+% Page margins
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+
+% Ensure that figures are floated where or after they're defined
+\usepackage{flafter}
+
+% Headers from page 2 on
+\usepackage{fancyhdr}
+\setlength{\headheight}{0.25in}
+\pagestyle{fancy}
+\lhead{\uppercase{$short-title$}}
+\chead{}
+\rhead{}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Pandoc tightlists
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+% ------------------
+% TYPOGRAPHY STUFF
+% ------------------
+% Fix widows and orphans
+\usepackage[all,defaultlines=2]{nowidow}
+
+% Line spacing
+\usepackage{setspace}
+
+% Don't typeset URLs in a monospaced font
+\usepackage{url}
+\urlstyle{same}
+% Add - to url's default breaks
+\def\UrlBreaks{\do\.\do\@\do\\\do\/\do\!\do\_\do\|\do\;\do\>\do\]%
+    \do\)\do\,\do\?\do\&\do\'\do+\do\=\do\#\do-}
+
+% Wrap definition list terms
+% https://tex.stackexchange.com/a/9763/11851
+\setlist[description]{style=unboxed}
+
+
+% --------
+% MACROS
+% --------
+\newcommand{\blandscape}{\begin{landscape}}
+\newcommand{\elandscape}{\end{landscape}}
+\newcommand{\stgroup}{\begingroup}
+\newcommand{\fingroup}{\endgroup}
+
+
+% --------
+% TABLES
+% --------
+\usepackage{floatrow}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{pbox}  % For multi-line table cells
+
+% Single spacing in longtables
+% This doesn't work with endfloat though
+% \BeforeBeginEnvironment{longtable}{\begin{singlespacing}}
+% \AfterEndEnvironment{longtable}{\end{singlespacing}}
+
+% Remove left margin in lists inside longtables
+% https://tex.stackexchange.com/a/378190/11851
+\AtBeginEnvironment{longtable} {\setlist[itemize]{nosep, wide=0pt, leftmargin=*, before=\vspace*{-\baselineskip}, after=\vspace*{-\baselineskip}}}
+
+
+% ----------
+% GRAPHICS
+% ----------
+\usepackage{graphicx}
+% We will generate all images so they have a width \maxwidth. This means
+% that they will get their normal width if they fit onto the page, but
+% are scaled down if they would overflow the margins.
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+\else\Gin@nat@width\fi}
+\makeatother
+\let\Oldincludegraphics\includegraphics
+\renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=\maxwidth]{#1}}
+
+$if(endfloat)$
+\usepackage[nolists]{endfloat}
+\DeclareDelayedFloatFlavour*{longtable}{table}
+$endif$
+
+% ------------
+% REFERENCES
+% ------------
+% Color names for hyperlinks
+\usepackage[svgnames]{xcolor}
+
+% Hyperlink stuff
+\usepackage[xetex, colorlinks=true, urlcolor=DarkSlateBlue,
+            citecolor=DarkSlateBlue, filecolor=DarkSlateBlue, plainpages=false,
+            hyperfootnotes=false,  % For compatibility with footmisc
+            pdfpagelabels, bookmarksnumbered]{hyperref}
+
+% biblatex setup
+% NB: Using "strict" messes with footnotes and removes the rule!
+\usepackage[authordate, backend=biber, noibid,
+            isbn=false, uniquename=false]{biblatex-chicago}
+
+\addbibresource{$bibliography$}
+\setlength\bibhang{\parindent}
+
+
+% -----------
+% FOOTNOTES
+% -----------
+% NB: footmisc has to come after setspace and biblatex because of conflicts
+\usepackage[bottom, flushmargin]{footmisc}
+\renewcommand*{\footnotelayout}{\normalsize}
+
+\addtolength{\skip\footins}{12pt}    % vertical space between rule and main text
+\setlength{\footnotesep}{16pt}  % vertical space between footnotes
+
+\begin{document}
+
+$if(title-page)$
+
+\begin{titlepage}
+\center
+
+\vspace*{0.5in}
+{\bfseries $title$}
+
+\vspace{\baselineskip}
+
+$for(author)$
+$author.name$ \\
+$author.affiliation$ \\
+$if(author.twitter)$@$author.twitter$ \\$endif$
+
+$sep$ \vspace{\baselineskip}
+$endfor$
+
+\vspace{0.25in}
+
+{\center Word count: $word-count$}
+
+\vspace{0.5in}
+
+{\center Author note}
+
+\begin{flushleft}
+$author-note$
+\end{flushleft}
+
+{\center Correspondence}
+
+\begin{flushleft}
+$correspondence$
+\end{flushleft}
+
+$if(additional-info)$
+{\center Additional information}
+
+\begin{flushleft}
+$additional-info$
+\end{flushleft}
+$endif$
+
+{\center Acknowledgments}
+
+\begin{flushleft}
+$thanks$
+\end{flushleft}
+
+\vfill  % Fill the rest of the page with whitespace
+
+\end{titlepage}
+
+\doublespacing
+
+\begin{abstract}
+\noindent $abstract$
+\end{abstract}
+
+\vspace{\baselineskip}
+
+$if(keywords)$\indent \keywords{$keywords$}$endif$
+
+\newpage
+
+\begin{center}
+{\bfseries $title$}
+\end{center}
+
+$endif$
+
+$if(appendix)$
+\begin{center}
+{\LARGE\bfseries $title$}
+\end{center}
+$endif$
+
+$if(toc)$
+{
+\hypersetup{linkcolor=black}
+\setcounter{tocdepth}{$toc-depth$}
+\tableofcontents
+$if(toc-figures)$
+\listoffigures
+$endif$
+$if(toc-tables)$
+\listoftables
+$endif$
+}
+$endif$
+
+\doublespacing
+
+$body$
+
+\newpage
+\singlespacing
+\printbibliography[heading=bibliography$if(reference-section-title)$, title=$reference-section-title$$endif$]
+
+\end{document}

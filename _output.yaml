@@ -1,0 +1,1 @@
+knit: stop('\n\nDon\'t knit with the "Knit" button in RStudio.\nUse RStudio\'s Terminal panel instead and run "make html", "make tex", "make docx", etc.\n\n')

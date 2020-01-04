@@ -1,0 +1,19 @@
+# R stuff
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+# Output
+tex_out
+md-paper-manuscript.docx
+md-paper-manuscript.tex
+md-paper.docx
+md-paper.html
+md-paper.tex
+rmd-paper-manuscript.docx
+rmd-paper-manuscript.tex
+rmd-paper.docx
+rmd-paper.html
+rmd-paper.tex
+
