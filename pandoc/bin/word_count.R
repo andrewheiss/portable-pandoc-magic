@@ -1,4 +1,4 @@
-#!/usr/bin/Rscript
+#!/usr/bin/env Rscript
 
 # string::stri_count_words() counts, um, words. That's its whole job. But it
 # doesn't count them like Microsoft Word counts them, and academic publishing
