@@ -152,16 +152,36 @@ BIB=$(SRC:$(MD_EXT)=.bib)
 
 .PHONY: clean count
 
+## all	:	Convert manuscript to Markdown, HTML, .odt, .docx, manuscripty .odt, 
+## 		manuscripty .docx, and PDF *and* extract all citations into a standalone 
+## 		.bib file
 all:	clean $(MD) $(HTML) $(ODT) $(DOCX) $(MS_ODT) $(MS_DOCX) $(TEX) $(MS_TEX) $(BIB) count
 
+## md	:	Convert manuscript to Markdown
 md: 	clean $(MD)
+
+## html	:	Convert manuscript to HTML
 html:	clean $(HTML)
+
+## tex	:	Convert manuscript to PDF (through XeLaTeX)
 tex:	clean $(TEX)
+
+## mstex	:	Convert manuscript to manuscripty PDF (through XeLaTeX)
 mstex:	clean $(MS_TEX)
+
+## odt	:	Convert manuscript to .odt
 odt:	clean $(ODT)
+
+## docx	:	Convert manuscript to .docx (through .odt)
 docx:	clean $(DOCX)
+
+## ms	:	Convert manuscript to manuscripty .odt
 ms: 	clean $(MS_ODT)
+
+## msdocx	:	Convert manuscript to manuscripty .docx (through .odt)
 msdocx:	clean $(MS_DOCX)
+
+## bib	:	Extract bibliography to standalone .bib file
 bib:	$(BIB)
 
 
@@ -269,16 +289,25 @@ bib:	$(BIB)
 	@echo "$(WARN_COLOR)Extracing all citations into a standalone .bib file...$(NO_COLOR)"
 	python ${PREFIX}/bin/bib_extract.py --bibtex_file $(BIB_FILE) --bibtools_resource ${PREFIX}/bin/bibtool.rsc $< $@
 
+## count	:	Get Word-like word count
 count: html
 	@echo "$(WARN_COLOR)Count manuscript words like Word...$(NO_COLOR)"
 	Rscript ${PREFIX}/bin/word_count.R $(BASE).html
 
+## clean	:	Delete all manuscript-related targets
 clean:
 	@echo "$(WARN_COLOR)Deleting all existing targets...$(NO_COLOR)"
 	rm -f $(addsuffix .html, $(BASE)) \
 		$(addsuffix .odt, $(BASE)) $(addsuffix .docx, $(BASE)) \
 		$(addsuffix -manuscript.odt, $(BASE)) $(addsuffix -manuscript.docx, $(BASE)) \
 		$(addsuffix .tex, $(BASE)) $(addsuffix -manuscript.tex, $(BASE)) $(addsuffix .bib, $(BASE))
+
+# Self-documenting Makefiles from The Carpentries
+# https://swcarpentry.github.io/make-novice/08-self-doc/index.html
+## help	:	Show possible targets
+.PHONY: help
+help: Makefile
+	@sed -n 's/^##//p' $<
 
 
 # -------------------
