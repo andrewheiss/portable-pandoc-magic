@@ -8,12 +8,12 @@
 #   original,replacement
 #   old text,new text
 #
-# usage: accecare.py [-h] replacements [input_file] [output]
+# usage: anonymize.py [-h] replacements [input_file] [output]
 #
 # Recommended usage: Send the Markdown output to stdout (default) and pipe
 # into pandoc for instant preprocessing:
 #
-#   accecare.py replacements.csv document.md | pandoc -f markdown -t html -o document.html
+#   anonymize.py replacements.csv document.md | pandoc -f markdown -t html -o document.html
 
 # Load libraries
 import argparse
@@ -27,7 +27,7 @@ parser.add_argument('replacements', type=argparse.FileType('r'),
                     help='CSV file of replacements (with columns named "original" and "replacement")')
 parser.add_argument('input_file', type=argparse.FileType('r'),
                     nargs='?', default=sys.stdin,
-                    help='file to blind')
+                    help='file to anonymize')
 parser.add_argument('output', type=argparse.FileType('w'),
                     nargs='?', default=sys.stdout,
                     help='the name of the output file (defaults to stdout)')
@@ -41,7 +41,7 @@ with args.replacements as file:
 
 
 # Replace keys in the dictionary with values
-def blindify(text, repl):
+def anonymize(text, repl):
     # Sort keys by length, in reverse
     for item in sorted(repl.keys(), key=len, reverse=True):
         # Replace stuff
@@ -52,4 +52,4 @@ def blindify(text, repl):
 
 # All done!
 with args.output as f:
-    f.write(blindify(args.input_file.read(), replacements))
+    f.write(anonymize(args.input_file.read(), replacements))

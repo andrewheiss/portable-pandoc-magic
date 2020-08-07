@@ -56,7 +56,7 @@ ENDFLOAT = FALSE
 
 # Remove identifying information (only happens in mstex and msdocx targets)
 # Use pandoc/bin/replacements.csv to map identifying information to anonymous output
-BLINDED = FALSE
+ANONYMIZED = FALSE
 
 # Add version control information in footer (only happens in tex target)
 VC_ENABLE = FALSE
@@ -116,11 +116,11 @@ else
 	ENDFLOAT_PANDOC =
 endif
 
-# Blindify stuff if needed
-ifeq ($(BLINDED), TRUE)
-	BLINDIFY = | $(PREFIX)/bin/accecare.py $(PREFIX)/bin/replacements.csv
+# Anonymize stuff if needed
+ifeq ($(ANONYMIZED), TRUE)
+	ANONYMIZE = | $(PREFIX)/bin/anonymize.py $(PREFIX)/bin/replacements.csv
 else
-	BLINDIFY =
+	ANONYMIZE =
 endif
 
 # Enable fancy version control footers if needed
@@ -232,7 +232,7 @@ bib:	$(BIB)
 
 %-manuscript.tex:	%.md
 	@echo "$(WARN_COLOR)Converting Markdown to TeX using generic manuscript template...$(NO_COLOR)"
-	cat $< $(BLINDIFY) | \
+	cat $< $(ANONYMIZE) | \
 	pandoc -r $(OPTIONS)+raw_tex -w latex -s \
 		--filter pandoc-include \
 		$(CROSSREF) \
@@ -266,7 +266,7 @@ bib:	$(BIB)
 
 %-manuscript.odt:	%.md
 	@echo "$(WARN_COLOR)Converting Markdown to .odt using manuscript template...$(NO_COLOR)"
-	python $(PREFIX)/bin/replace_pdfs.py $(PNG_CONVERT) $< $(BLINDIFY) | \
+	python $(PREFIX)/bin/replace_pdfs.py $(PNG_CONVERT) $< $(ANONYMIZE) | \
 	pandoc -r $(OPTIONS) -w odt \
 		--filter pandoc-include \
 		$(CROSSREF) \
